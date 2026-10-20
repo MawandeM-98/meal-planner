@@ -1,0 +1,14 @@
+<h1>Meal planner</h1>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else if (plan(); as p) {
+  <p>Best we can do: feed <strong>{{ p.totalFed }}</strong> people.</p>
+  <ul>
+    @for (dish of p.dishes; track dish.name) {
+      <li>{{ dish.count }} × {{ dish.name }}</li>
+    }
+  </ul>
+} @else {
+  <p>Working it out...</p>
+}
