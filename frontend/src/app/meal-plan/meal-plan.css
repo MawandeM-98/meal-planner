@@ -1,7 +1,205 @@
-.error {
-  color: #b00020;
+.page {
+  max-width: 58rem;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
 }
 
-ul {
-  padding-left: 1.2rem;
+h1 {
+  margin: 0;
+  font-size: clamp(2.75rem, 8vw, 5.5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.lede {
+  margin: 1rem 0 0;
+  max-width: 34rem;
+  color: var(--muted);
+}
+
+/* The table: one group of plates per dish */
+.table {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem 3.5rem;
+  margin: 3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.group {
+  --dish: var(--ink);
+}
+.group[data-dish='Pizza'] { --dish: #d6422a; }
+.group[data-dish='Pasta'] { --dish: #d4920f; }
+.group[data-dish='Sandwich'] { --dish: #2f7d6d; }
+.group[data-dish='Salad'] { --dish: #6fa43a; }
+.group[data-dish='Burger'] { --dish: #8a4b2d; }
+.group[data-dish='Pie'] { --dish: #7a5ca8; }
+
+.seats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  max-width: 13rem;
+}
+
+/* A plate seen from above: the rim is the border, the food is the centre. */
+.plate {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 3px solid var(--dish);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--dish) 0 52%, transparent 54%);
+  animation: set-down 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  animation-delay: calc(var(--n) * 60ms);
+}
+
+@keyframes set-down {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.caption {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+}
+
+.caption strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 650;
+}
+
+/* The pantry shelf */
+.pantry {
+  margin-top: 5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  max-width: 40rem;
+  margin: 0.5rem 0 2rem;
+  color: var(--muted);
+}
+
+.shelf {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.name {
+  font-weight: 600;
+}
+
+.pips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.pip {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--pip-empty);
+  border-radius: 0.2rem;
+}
+
+.pip.used {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.count {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Loading and error states */
+.working {
+  color: var(--muted);
+}
+
+.notice {
+  max-width: 34rem;
+}
+
+.notice h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.notice p {
+  color: var(--muted);
+}
+
+code {
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  background: #dfe7e3;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+button {
+  padding: 0.7rem 1.2rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #24463d;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@media (max-width: 34rem) {
+  .row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .pips {
+    order: 3;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate {
+    animation: none;
+  }
 }

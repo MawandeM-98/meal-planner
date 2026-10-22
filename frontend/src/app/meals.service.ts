@@ -5,11 +5,14 @@ import { Observable } from 'rxjs';
 export interface DishCount {
   name: string;
   count: number;
+  fed: number;
 }
 
 export interface MealPlanResult {
   totalFed: number;
   dishes: DishCount[];
+  used: Record<string, number>;
+  leftovers: Record<string, number>;
 }
 
 @Injectable({ providedIn: 'root' })

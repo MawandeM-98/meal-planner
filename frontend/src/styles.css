@@ -1,4 +1,23 @@
+:root {
+  --paper: #eef2ef;
+  --ink: #16302a;
+  --muted: #566964;
+  --line: #cfd9d4;
+  --pip-empty: #6f857e;
+  --font: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: system-ui, sans-serif;
-  margin: 2rem;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.5;
 }
