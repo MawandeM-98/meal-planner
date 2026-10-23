@@ -9,13 +9,6 @@ import { MealsService, MealPlanResult } from '../meals.service';
 export class MealPlan implements OnInit {
   private meals = inject(MealsService);
 
-  // Photo files in frontend/public/images, by dish name.
-  private photos: Record<string, string> = {
-    Pizza: 'pizza.jfif',
-    Pasta: 'pasta.jpg',
-    Sandwich: 'sandwhich.jfif',
-  };
-
   plan = signal<MealPlanResult | null>(null);
   error = signal(false);
 
@@ -71,9 +64,8 @@ export class MealPlan implements OnInit {
     });
   }
 
-  // Dishes without a listed photo fall back to <dish name>.jpg.
+  // Photos live in frontend/public/images and are named after the dish.
   photo(dish: string) {
-    const file = this.photos[dish] ?? `${dish.toLowerCase()}.jpg`;
-    return `/images/${file}`;
+    return `/images/${dish.toLowerCase()}.jpg`;
   }
 }
