@@ -57,9 +57,7 @@ There is no single best plan. Five combinations all feed 12 people:
 |:---:|---|:---:|:---:|
 | **A ✅** | **2 Sandwich, 1 Pasta, 2 Pizza** | **5** | **28** |
 | B | 2 Burger, 2 Sandwich, 2 Pizza | 6 | 32 |
-| C | 2 Pie, 1 Sandwich, 1 Pasta, 1 Salad, 1 Pizza | 6 | 33 |
-| D | 1 of every dish | 6 | 34 |
-| E | 1 Burger, 2 Pie, 1 Pasta, 1 Salad, 1 Pizza | 6 | 36 |
+| C | 1 Burger, 2 Pie, 1 Pasta, 1 Salad, 1 Pizza | 6 | 36 |
 
 *Ingredient units* is the total number of ingredients a plan uses. A pizza, for example, uses 9.
 
@@ -73,15 +71,13 @@ The code applies the tie-break on dishes cooked. If two plans tie on that as wel
 
 ## 🧠 How it works
 
-The solution is a small exhaustive search:
+The solution is :
 
 1. Take the recipes in order: Burger, Pie, Sandwich, Pasta, Salad, Pizza.
 2. For each recipe, try making 0, 1, 2 and so on, for as long as the pantry still has the ingredients.
 3. After each choice, move on to the next recipe with whatever is left.
 4. When every recipe has been decided, count the people fed. Keep the best plan seen: most people first, then fewest dishes.
 5. When the search backs up to try something else, the ingredients are handed back to the pantry.
-
-**Why not something cleverer?** The pantry is tiny, so checking every combination finishes instantly and is guaranteed to be optimal. A greedy shortcut ("always cook the dish that feeds the most") can use up the scarce olives on the wrong dish and miss the best plan. Dynamic programming or a solver library would add complexity without adding anything at this size.
 
 ---
 
@@ -217,7 +213,7 @@ The tests live in `backend/Kitchen.Tests` and use [xUnit](https://xunit.net/).
 | `GetMeals_ReturnsTheBestPlan` | The real endpoint returns the 12-person plan |
 | `GetMeals_UsesTheFieldNamesTheFrontendReads` | The JSON keeps the shape the page relies on |
 
-The Angular page has no automated tests. The logic that matters lives in the planner, and the page only displays what the API returns.
+The Angular page has no automated tests. The logic that matters lives in the planner in the backend, and the page only displays what the API returns.
 
 ---
 
@@ -263,6 +259,8 @@ More detail on the process is on the [wiki](https://github.com/MawandeM-98/meal-
 
 (pictures sought from Google)
 
-Will be deployed on Render soon *
+Will be deployed on Render soon by 27 October 2026 to accomodate both Angular and .Net files*
 
-Built by Mawande.
+Did not utilize best practices of coding on Develop branch and merging to Main at the end :(.
+
+Built by Mawande Msomi.
