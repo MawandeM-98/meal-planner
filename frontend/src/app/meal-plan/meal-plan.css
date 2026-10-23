@@ -67,6 +67,7 @@ a:focus-visible,
 
 .bar-in {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -422,6 +423,10 @@ code {
 }
 
 @media (max-width: 30rem) {
+  .logo {
+    font-size: 1.3rem;
+  }
+
   .bar nav {
     gap: 1rem;
     font-size: 0.95rem;
@@ -435,7 +440,6 @@ code {
     margin-left: auto;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .plate {
     animation: none;

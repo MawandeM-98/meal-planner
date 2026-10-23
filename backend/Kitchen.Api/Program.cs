@@ -17,3 +17,6 @@ app.UseCors("Frontend");
 app.MapControllers();
 
 app.Run();
+
+// Lets the endpoint tests start the app in memory.
+public partial class Program { }
