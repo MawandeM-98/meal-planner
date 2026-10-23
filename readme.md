@@ -242,8 +242,8 @@ This project was built with AI assistance (Claude, by Anthropic), used deliberat
 
 | | |
 |---|---|
-| **Where AI helped** | Drafting code (the planner, the API and the Angular page), the page styling, the unit and endpoint tests, and this documentation |
-| **What stayed human** | Choosing the approach and the tie-break rule, setting up the repository by hand, picking the visual direction and the dish photos, writing the final wording on the page, and running and debugging everything locally |
+| **Where AI helped** | Parts of the code implementation (the planner and API, as well as one Services file containing business logic), the page styling, the unit and endpoint tests, and this documentation on the readme.md as well as the Wiki page |
+| **What stayed human** | Parts of the backend implementation and code, Choosing the approach and the tie-break rule, setting up the repository by hand, picking the visual direction and the dish photos,running and debugging everything locally as well as the bulk of Angular coding |
 
 How it was kept safe:
 
