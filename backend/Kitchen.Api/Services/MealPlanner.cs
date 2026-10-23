@@ -12,12 +12,16 @@ public static class MealPlanner
         var bestFed = -1;
         var bestDishes = 0;
 
-    
+        // Walks through the recipes one by one, trying 0, 1, 2... portions of each.
+        // The pantry is small, so trying every combination is instant and
+        // guarantees the best answer; a greedy shortcut would not.
         void Search(int i, int fed, int dishes)
         {
             if (i == recipes.Count)
             {
-                
+                // Several plans can feed the same number of people. Fewest dishes
+                // wins, because it means the least cooking. If still tied, the
+                // first plan found is kept.
                 if (fed > bestFed || (fed == bestFed && dishes < bestDishes))
                 {
                     bestFed = fed;
@@ -72,7 +76,12 @@ public static class MealPlanner
         {
             if (counts[i] == 0) continue;
 
-            plan.Dishes.Add(new DishCount { Name = recipes[i].Name, Count = counts[i] });
+            plan.Dishes.Add(new DishCount
+            {
+                Name = recipes[i].Name,
+                Count = counts[i],
+                Fed = counts[i] * recipes[i].Feeds,
+            });
 
             foreach (var item in recipes[i].Ingredients)
                 plan.Used[item.Key] = plan.Used.GetValueOrDefault(item.Key) + item.Value * counts[i];

@@ -1,54 +1,90 @@
-<main class="page">
-  @if (error()) {
-    <section class="notice" role="alert">
-      <h1>The planner API isn't responding</h1>
-      <p>Start it with <code>dotnet run --project backend\Kitchen.Api</code>, then try again.</p>
-      <button type="button" (click)="load()">Try again</button>
-    </section>
-  } @else if (plan(); as p) {
-    <section class="hero">
+@if (error()) {
+  <section class="notice" role="alert">
+    <h1>The planner API isn't responding</h1>
+    <p>Start it with <code>dotnet run --project backend\Kitchen.Api</code>, then try again.</p>
+    <button type="button" class="button" (click)="load()">Try again</button>
+  </section>
+} @else if (plan(); as p) {
+  <section class="hero">
+    @if (dishes()[0]; as top) {
+      <img
+        class="hero-photo"
+        [attr.data-dish]="top.name"
+        [src]="photo(top.name)"
+        alt=""
+        decoding="async"
+        fetchpriority="high"
+        (error)="$any($event.target).hidden = true"
+      />
+    }
+
+    <div class="hero-text">
       <h1>Feeds {{ p.totalFed }} {{ p.totalFed === 1 ? 'person' : 'people' }}</h1>
       <p class="lede">
         The most this pantry can feed, cooked as {{ dishesCooked() }}
         {{ dishesCooked() === 1 ? 'dish' : 'dishes' }}.
       </p>
 
-      <ul class="table">
-        @for (g of groups(); track g.name) {
-          <li class="group" [attr.data-dish]="g.name">
-            <div class="seats" aria-hidden="true">
-              @for (n of g.seats; track n) {
-                <span class="plate" [style.--n]="n"></span>
-              }
-            </div>
-            <p class="caption">
-              <strong>{{ g.name }} ×{{ g.count }}</strong>
-              <span>feeds {{ g.fed }}</span>
-            </p>
-          </li>
+      <div class="seats" aria-hidden="true">
+        @for (dish of seats(); track $index) {
+          <span class="plate" [attr.data-dish]="dish" [style.--n]="$index"></span>
         }
-      </ul>
-    </section>
+      </div>
 
-    <section class="pantry">
+      <a class="button" href="#pantry">See the pantry</a>
+    </div>
+  </section>
+
+  <section class="menu" aria-labelledby="menu-title">
+    <h2 id="menu-title">What to cook</h2>
+
+    <ul class="dishes">
+      @for (d of dishes(); track d.name) {
+        <li class="dish" [attr.data-dish]="d.name">
+          <div class="photo">
+            <img
+              [src]="photo(d.name)"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              (error)="$any($event.target).hidden = true"
+            />
+            <span class="badge">×{{ d.count }}</span>
+          </div>
+          <h3>{{ d.name }}</h3>
+          <p>Feeds {{ d.fed }}</p>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="pantry" id="pantry">
+    <div class="pantry-intro">
       <h2>Pantry</h2>
-      <p class="sub">{{ unitsUsed() }} of {{ unitsTotal() }} units used. {{ leftoverText() }}</p>
+      <p>{{ unitsUsed() }} of {{ unitsTotal() }} units used. {{ leftoverText() }}</p>
+    </div>
 
-      <ul class="shelf">
-        @for (row of pantry(); track row.name) {
-          <li class="row">
-            <span class="name">{{ row.name }}</span>
-            <span class="pips" aria-hidden="true">
-              @for (isUsed of row.pips; track $index) {
-                <i class="pip" [class.used]="isUsed"></i>
-              }
-            </span>
-            <span class="count">{{ row.used }} of {{ row.total }} used</span>
-          </li>
-        }
-      </ul>
-    </section>
-  } @else {
-    <p class="working">Working out the best plan...</p>
-  }
-</main>
+    <ul class="shelf">
+      @for (row of pantry(); track row.name) {
+        <li class="row">
+          <span class="name">{{ row.name }}</span>
+          <span class="pips" aria-hidden="true">
+            @for (isUsed of row.pips; track $index) {
+              <i class="pip" [class.used]="isUsed"></i>
+            }
+          </span>
+          <span class="count">{{ row.used }} of {{ row.total }} used</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <footer class="method">
+    <p>
+      Every combination of dishes was checked, so {{ p.totalFed }} is the most this pantry can
+      feed. When plans tie, the one that cooks the fewest dishes is shown.
+    </p>
+  </footer>
+} @else {
+  <p class="working">Working out the best plan...</p>
+}

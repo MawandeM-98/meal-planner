@@ -9,19 +9,23 @@ import { MealsService, MealPlanResult } from '../meals.service';
 export class MealPlan implements OnInit {
   private meals = inject(MealsService);
 
+  // Photo files in frontend/public/images, by dish name.
+  private photos: Record<string, string> = {
+    Pizza: 'pizza.jfif',
+    Pasta: 'pasta.jpg',
+    Sandwich: 'sandwhich.jfif',
+  };
+
   plan = signal<MealPlanResult | null>(null);
   error = signal(false);
 
-  // One group of plates per dish, biggest first. Every plate gets a running
-  // number so the page-load animation can set them down one after another.
-  groups = computed(() => {
-    const dishes = [...(this.plan()?.dishes ?? [])].sort((a, b) => b.fed - a.fed);
-    let next = 0;
-    return dishes.map((dish) => {
-      const seats = Array.from({ length: dish.fed }, () => next++);
-      return { ...dish, seats };
-    });
-  });
+  // Dishes that feed the most people come first.
+  dishes = computed(() => [...(this.plan()?.dishes ?? [])].sort((a, b) => b.fed - a.fed));
+
+  // One entry per person fed, so each plate can be coloured by its dish.
+  seats = computed(() =>
+    this.dishes().flatMap((dish) => Array.from({ length: dish.fed }, () => dish.name)),
+  );
 
   pantry = computed(() => {
     const plan = this.plan();
@@ -65,5 +69,11 @@ export class MealPlan implements OnInit {
       next: (result) => this.plan.set(result),
       error: () => this.error.set(true),
     });
+  }
+
+  // Dishes without a listed photo fall back to <dish name>.jpg.
+  photo(dish: string) {
+    const file = this.photos[dish] ?? `${dish.toLowerCase()}.jpg`;
+    return `/images/${file}`;
   }
 }
